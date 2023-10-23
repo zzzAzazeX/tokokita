@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tokokita/bloc/logout_bloc.dart';
 import 'package:tokokita/model/produk.dart';
+import 'package:tokokita/ui/login_page.dart';
 import 'package:tokokita/ui/produk_detail.dart';
 import 'package:tokokita/ui/produk_form.dart';
-import 'package:tokokita/ui/about_page.dart';
-import 'package:tokokita/ui/login_page.dart';
 
 class ProdukPage extends StatefulWidget {
   const ProdukPage({Key? key}) : super(key: key);
@@ -17,40 +17,16 @@ class _ProdukPageState extends State<ProdukPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('List Produk'),
+        title: const Text('List Produk'),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 1.0),
+            padding: const EdgeInsets.only(right: 20.0),
             child: GestureDetector(
-              child: Icon(Icons.add, size: 26.0),
+              child: const Icon(Icons.add, size: 26.0),
               onTap: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProdukForm()),
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProdukForm()));
               },
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: 18.0), // Tambahkan padding horizontal di sini
-            child: Row(
-              children: [
-                GestureDetector(
-                  child: Icon(Icons.info, size: 26.0),
-                  onTap: () async {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AboutPage()),
-                    );
-                  },
-                ),
-                SizedBox(width: 2.0), // Jarak antara ikon dan teks
-                Text(
-                  'Hanif',
-                  style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
-                ),
-              ],
             ),
           ),
         ],
@@ -62,13 +38,14 @@ class _ProdukPageState extends State<ProdukPage> {
               title: const Text('Logout'),
               trailing: const Icon(Icons.logout),
               onTap: () async {
-                //logic logout
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
+                await LogoutBloc.logout().then((value) => {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LoginPage()))
+                });
               },
-            )
+            ),
           ],
         ),
       ),
